@@ -19,10 +19,10 @@ We also list different folders, each with their own contents:
 
 ## Omnipose
 
-- `omnipose.yml`: conda environment file with the software specifications when training and segmenting
+- `omnipose_GPU.yml`: conda environment file with the software specifications for using with GPUs. This environment was used for model training, and can also be used for segmentation.
 - `Omnipose_CLI.txt`: the command used to train the Omnipose segmentation model, including specifications of hardware
-- `Omnipose_segmentation.ipynb`: Jupyter notebook showing the parameters used for segmenting test and case images
-- `Omnipose_metrics.ipynb`: Jupyter notebook showing the calculation of hte segmentation metrics in Figure X of the paper, as well as showing some of the testing data.
+- `Omnipose_segmentation.ipynb`: Jupyter notebook showing the parameters used for segmenting test and case images (Figures 2, x, S1, ...)
+- `Omnipose_metrics.ipynb`: Jupyter notebook showing the calculation of hte segmentation metrics in Figure X of the paper, as well as showing some of the testing data. (Figures 2, S2)
 - `FMDeconvolved_2D_Omnipose`: Trained omnipose model. Can be loaded either in the GUI or through a notebook. Requires Pytorch
 
 
