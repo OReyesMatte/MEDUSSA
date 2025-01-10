@@ -14,7 +14,6 @@ Unless stated otherwise, figures were assembled using [Inkscape v1.4](https://in
 ## CARE 
 
 - `care.yml`: conda environment file with the software specifications when training and segmenting
-- `CARE_FM2FM.zip`: Compressed folder containing the CARE model. The `Predict.ipynb` notebook shows how to load it. Requires tensorflow
  
 ### The following notebooks are adapted from the official [CSBDeep repository](https://github.com/CSBDeep/CSBDeep)
 - `Preparation.ipynb`: transforming the data into patches and exporting them into .npz files
