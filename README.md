@@ -1,4 +1,4 @@
-# reyesmatte_2024_imaging_paper
+# reyesmatte_202X_imaging_paper
 Repository to access the different notebooks and information of the paper ""
 
 Here you'll find the information of the different environments used for specific tasks (data plotting, restoration, segmentation)
@@ -53,7 +53,7 @@ Escherichia coli images and segmentations can be found in:
 
 ### References
 
-Main article:
+[Main article]() Reyes-Matte, M., Fortmann-Grote, C., Gericke, B., Ojkic, N., & Lopez-Garrido, J. (202X). Accurate cell size determination of rod-shaped bacteria based on fluorescent membrane segmentation![image](https://github.com/user-attachments/assets/a7c74e7b-cfb9-4b53-b125-441bd6fd8c19)
 
 [CARE](https://www.nature.com/articles/s41592-018-0216-7) Weigert, M., Schmidt, U., Boothe, T., Müller, A., Dibrov, A., Jain, A., ... & Myers, E. W. (2018). Content-aware image restoration: pushing the limits of fluorescence microscopy. _Nature methods_, 15(12), 1090-1097.
 
