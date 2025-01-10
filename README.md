@@ -46,9 +46,14 @@ Images (training and testing images and masks) can be found in:
 
 ### Figure Bayesian sampling of parameters
 
-Escherichia coli images and segmentations can be found in: 
+- Escherichia coli images and segmentations can be found in the "Ecoli_segmentation.zip" file. It decompresses in three folders:
+  - Ecoli_GT: Ground-truth segmentations obtained with JFilament 
+  - Ecoli_Omni: Segmentations obtained with Omnipose. Curated to remove spurious segmentations
+  - SingleCells: FM4-64 images of cells
 
-
+- Dataframe with measurements of single cells
+- Dataframe with sampled parameters 
+- Notebook showing the over-estimation of the Omnipose-segmented masks, as well as the distribution of the sampled parameters with PYMC (Figures SX,SY)
 
 ### References
 
