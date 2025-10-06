@@ -1,4 +1,4 @@
-# reyesmatte_202X_imaging_paper
+# BACSIZE
 Repository to access the different notebooks and information of the paper ""
 
 Here you'll find the information of the different environments used for specific tasks (data plotting, restoration, segmentation)
