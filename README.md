@@ -1,4 +1,4 @@
-# BACSIZE
+# MEDUSSA (MEmbrane DeconvolUtion and Segmentation for Size Analyses)
 Repository to access the different notebooks and information of the paper "High-precision bacterial size profiling: dissecting mechanisms of cell-size diversity in *Priestia megaterium*"
 
 Here you'll find the information of the different environments used for specific tasks (data plotting, restoration, segmentation)
@@ -7,13 +7,13 @@ The `.yml` files are directly exported from conda environments used in the study
 
 Unless stated otherwise, figures were assembled using [Inkscape v1.4](https://inkscape.org/)
 
-## BACSIZE
+## MEDUSSA
 A set of functions to measure rod-shaped cells from segmentation masks, estimate parameters to transform the data to account for segmentation error propagation, and sample data distributions. 
 
 - `measure.py`: The functions that calculate cell size measurement images of segmentation masks in cell size measurements: Length, Width, Surface Area, and Volume
 - `transform.py`
 - `requirements.txt`: minimum software requirements to run the functions in both `measure.py` and `transform.py` 
-- `BACSIZE_example.ipynb`: example notebook on how to load `BACSIZE` and run it in a segmentation image
+- `MEDUSSA_example.ipynb`: example notebook on how to load `MEDUSSA` and run it in a segmentation image
 
 ## CARE 
 The environment and notebooks to train the deconvolution prediction models outlined in the manuscript (refer to Figure 3 to see the results). Please refer to the [CSBDeep documentation](https://github.com/CSBDeep/CSBDeep) for installation instructions
