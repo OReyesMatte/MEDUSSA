@@ -28,7 +28,7 @@ def euclidean_distance(p1:tuple,p2:tuple)->float:
 
 def compute_edges(points:list,threshold:float)->list:
     
-    """Convert a list of spatial coordinates to a graph list, where each adjacent point is considered to be the edge of a specific point.
+    """Convert a list of spatial coordinates to an edge list, where each point is considered to be the edge of a specific point if it's below a certain distance.
     If it is only one point, then it won't go through, as it wouldn't be a rod-shaped cell
 
     Args:
@@ -58,7 +58,18 @@ def compute_edges(points:list,threshold:float)->list:
         return edges
 
 ## Build graph as list
-def build_graph(points,edges):
+def build_graph(points:list,edges:list)->dict:
+
+    """Convert a list of points and edges into a graph
+    
+    Args:
+        points(list): list of points coordinates (x,y)
+        threshold(float): minimum distance for two points to be considered edges
+
+    Returns: 
+        graph(dict): graph representation of the skeleton, where lists the edges of each point in the skeleton
+    """
+
     graph = {point: [] for point in points}
     
     for p1,p2 in edges:
@@ -67,7 +78,17 @@ def build_graph(points,edges):
 
     return graph
 
-def calculate_total_distance(path):
+def calculate_total_distance(path:list)->float:
+
+    """Calculate the total distance as the seum of euclidean distances between two consecutive points
+    
+    Args:
+        path(list): list of points in (x,y) coordinate
+
+    Return:
+        total_distance(float): total calculated distance as a single float number
+    """
+
     total_distance = 0
 
     for i in range(len(path) - 1):
@@ -158,16 +179,37 @@ def WSV(skeleton_points:list,mask_distance:np.array,pixsize:float=33.02/512)->li
           
     return Widths, Surface_area, Volume
 
-def SkeletonMeasure(Skeleton:np.array,Distances:np.array,pixsize:float=33.02/512,return_paths:bool=False):
+def SkeletonMeasure(skeleton:np.array,distances:np.array,pixsize:float=33.02/512,return_paths:bool=False):
 
-    ### Compute "longest path" skeleton
+    """Function to measure the cell size base on the skeleton overalid on the mask distance transform. The steps are:
+
+        - Get the coordinates of the skeleton points
+        - Compute edges and build graph based on the points
+        - Calculate longest path of the skeleton
+        - If the longest path has more points than the skeleton, compute the candidate paths
+        - The candidate paths can be returned as a list in order to get per-position width values, or ignored and the median of metrics is returned
+        - If the longest path is the same size, simply measure cell size and return the values
+        - If there's only one point in the skeleton, the function simply returns 0 for the cell size values, as it's not a rod shape
+
+    Args:
+        skeleton(np.array): the binary skeleton of a single cell (computed with functions such as "skeletonize" or "medial_axis" from scikit-image)
+        distances(np.arry): the distance transform of a single cell ((computed with a function such as "distance_transform_edt" from scipy)
+        pixsize(float): the pixel sampling size. This information is available and intrinsic to each imaging system. Set as 1 to get the values in pixels.
+        return_paths(bool): if you want to return all the candidate paths as a list
+
+     Returns: 
+        Length(float/list): length of the cell if there's only one candidate path, if return_paths=True is a list of possible lengths, else it returns the median length value of candidate paths
+        Width(float/list): width values across the cell skeleton if there's only one candidate path or if return_paths=True, else it returns the median width value of candidate paths
+        Surface_area(float/list): surface area of the cell if there's only one candidate path, if return_paths=True is a list of possible surface areas, else it returns the median surface area value of candidate paths
+        Volume(float/list): volume of the cell if there's only one candidate path, if return_paths=True is a list of possible volume, else it returns the median volume value of candidate paths
+    """
 
     try:
 
         threshold=1.5
         
         #### Get the coordinates of the skeleton points
-        points = np.squeeze((findNonZero(np.uint8(Skeleton))))
+        points = np.squeeze((findNonZero(np.uint8(skeleton))))
         points = [tuple(xy) for xy in points]
 
         if len(points) > 1:
@@ -181,9 +223,7 @@ def SkeletonMeasure(Skeleton:np.array,Distances:np.array,pixsize:float=33.02/512
     
             for point in points:
                 visited = set()
-                DFS(graph,point,visited,[],longest_path,longest_distance)
-
-            
+                DFS(graph,point,visited,[],longest_path,longest_distance)            
 
             if len(longest_path) > len(points):
                 paths = PathFinder(path=longest_path,points=points,threshold=threshold)
@@ -192,7 +232,7 @@ def SkeletonMeasure(Skeleton:np.array,Distances:np.array,pixsize:float=33.02/512
 
                 newDistances = [calculate_total_distance(selected_paths)*pixsize for selected_paths in paths]
                 
-                M = [WSV(skeleton_points=selected_paths,mask_distance=Distances) for selected_paths in paths]
+                M = [WSV(skeleton_points=selected_paths,mask_distance=distances) for selected_paths in paths]
 
                 Ws = [arr[0] for arr in M]
                 Ss = [arr[1] for arr in M]
@@ -202,36 +242,36 @@ def SkeletonMeasure(Skeleton:np.array,Distances:np.array,pixsize:float=33.02/512
                 
                 if return_paths:
 
-                    L = newDistances
+                    Length = newDistances
                     W = [w.mean() for w in Ws]
-                    S = Ss
-                    V = Vs
+                    Surface_area = Ss
+                    Volume = Vs
 
-                    return L,W,S,V,paths
+                    return Length,Width,Surface_area,Volume,paths
                 
                 else:
 
-                    L = np.median(newDistances)
-                    W = np.median([w.mean() for w in Ws])
-                    S = np.median(Ss)
-                    V = np.median(Vs)
+                    Length = np.median(newDistances)
+                    Width = np.median([w.mean() for w in Ws])
+                    Surface_area = np.median(Ss)
+                    Volume = np.median(Vs)
 
-                    return L,W,S,V,paths
+                    return Length,Width,Surface_area,Volume,paths
 
             else:
                 longest_path = longest_path
                 
                 #### Get Width, Surface Area, and Volume
-                W,S,V = WSV(skeleton_points=longest_path,mask_distance=Distances)
+                Width,Surface_area,Volume = WSV(skeleton_points=longest_path,mask_distance=distances)
                 newDistance = calculate_total_distance(longest_path)
                 
                 #### For length, get the longest distance and add the hemispherical caps
-                L = (newDistance*pixsize + W[0]/2 + W[-1]/2)
-                return L,W,S,V
+                Length = (newDistance*pixsize + Width[0]/2 + Width[-1]/2)
+                return Length,Width,Surface_area,Volume
     except:
-        L,W,S,V = 0,0,0,0
+        Length,Width,S,V = 0,0,0,0
     
-        return L,W,S,V
+        return Length,Width,Surface_area,V
     
 
 def SingleCellLister(maskList:list) -> list:
