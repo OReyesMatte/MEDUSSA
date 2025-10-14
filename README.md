@@ -10,11 +10,12 @@ Unless stated otherwise, figures were assembled using [Inkscape v1.4](https://in
 ## MEDUSSA
 A set of functions to measure rod-shaped cells from segmentation masks, estimate parameters to transform the data to account for segmentation error propagation, and sample data distributions. 
 
-- `measure.py`: The functions that calculate cell size measurement images of segmentation masks in cell size measurements: Length, Width, Surface Area, and Volume
-- `transform.py`
+- `measure.py`: functions that calculate cell size measurement images of segmentation masks in cell size measurements: Length, Width, Surface Area, and Volume
+- `transform.py`: functions that allow to transform the obtained metrics either by sampling parameters from a linear relationship to calculating confidence intervals
+- `utils.py`: functions for changing segmentation labels, removing truncated edge masks, and calculating distribution intersections
 - `requirements.txt`: minimum software requirements to run the functions in both `measure.py` and `transform.py` 
-- `MEDUSSA_example.ipynb`: example notebook on how to load `MEDUSSA` and run it in a segmentation image
-
+- `MEDUSSA_example.ipynb`: example notebook on how to load `MEDUSSA` and run the whole pipeline of deconvolution, segmentation, and measurement
+  
 ## CARE 
 The environment and notebooks to train the deconvolution prediction models outlined in the manuscript (refer to Figure 3 to see the results). Please refer to the [CSBDeep documentation](https://github.com/CSBDeep/CSBDeep) for installation instructions
 
