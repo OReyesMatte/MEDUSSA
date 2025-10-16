@@ -43,7 +43,7 @@ def BorderElements(masks:np.array, border:int):
 
     return a[a.nonzero()]
 
-def BorderRemoval(masks:np.array)->np.array:
+def BorderRemoval(masks:np.array,border:int=2)->np.array:
 
     """Remove the segmentation masks that are on the edge of the image. If a mask is truncated, we don't know how much mask is missing, therefore making size calculations innacurate
     
@@ -55,7 +55,7 @@ def BorderRemoval(masks:np.array)->np.array:
         Else, it returns the mask image with the cells removed, keeping the original labels of the remaining cells
     """
 
-    borderIDs = BorderElements(masks=masks,border=2)
+    borderIDs = BorderElements(masks=masks,border=border)
 
     if len(borderIDs) == 0:
         return masks
@@ -125,4 +125,3 @@ def CellColorer(masks:np.array,labels,values)->np.array:
          value_image += (masks==label)*value
 
     return value_image
-

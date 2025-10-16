@@ -4,14 +4,28 @@ from scipy.stats import norm
 from itertools import product
 from pymc import HalfCauchy, Model, Normal, sample
 
-def BayesianGLM(full_data:pd.DataFrame,metrics,GT_key:str,Sample_key:str):
+def BayesianGLM(full_data:pd.DataFrame,metrics:list,GT_key:str,Target_key:str)->pd.DataFrame:
+
+    """Run a Bayesian Generalized Linear Model (GLM). The GLM is computed for a normal linear relationship (y ~ mx + n + σ).
+    The slope (m) and intercept (n) are drawn from prior normal distributions (continuous positive and negative values)
+    The error of the sampling (σ) are drawn from a Half-Cauchy distribution (only positive continuous values)
+    
+    Args:
+        - full_data(pd.DataFrame): a data frame containing the metrics of the ground truth (GT) and target data
+        - metrics(list): the metrics for which you want to compute the Bayesian GLM
+        
+        
+    Returns:
+        - df_posteriors(pd.DataFrame):
+
+    """
 
     df_list = []
 
     for metric in metrics:
 
         y = np.array(full_data[f'{metric}_{GT_key}'])
-        x = np.array(full_data[f'{metric}_{Sample_key}'])
+        x = np.array(full_data[f'{metric}_{Target_key}'])
 
         RANDOM_SEED = 8927
         rng = np.random.default_rng(RANDOM_SEED)

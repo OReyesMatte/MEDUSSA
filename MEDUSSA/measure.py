@@ -97,6 +97,10 @@ def calculate_total_distance(path:list)->float:
 
 ### Depth First Search
 def DFS(graph, current, visited, path, longest_path, longest_distance):
+
+    """Run a Depth First Search algorithm 
+    """
+
     visited.add(current)
     path.append(current)
 
@@ -269,9 +273,9 @@ def SkeletonMeasure(skeleton:np.array,distances:np.array,pixsize:float=33.02/512
                 Length = (newDistance*pixsize + Width[0]/2 + Width[-1]/2)
                 return Length,Width,Surface_area,Volume
     except:
-        Length,Width,S,V = 0,0,0,0
+        Length,Width,Surface_area,Volume = 0,0,0,0
     
-        return Length,Width,Surface_area,V
+        return Length,Width,Surface_area,Volume
     
 
 def SingleCellLister(maskList:list) -> list:
@@ -295,7 +299,7 @@ def SingleCellLister(maskList:list) -> list:
 
     return AllCells
 
-def SizeDataFrame(maskfilelist:list, from_files:bool=True, return_skeleton_paths:bool=False)->pd.DataFrame:
+def SizeDataFrame(maskfilelist:list, from_files:bool=True, return_skeleton_paths:bool=False):
 
     """Function that analyses the images from a list of files and returns a pandas DataFrame with the cell size.
     In this function, cell IDs are not considered. If you're interested in that, please use the SizeDataFrame_Localizer function instead.
@@ -303,12 +307,16 @@ def SizeDataFrame(maskfilelist:list, from_files:bool=True, return_skeleton_paths
     Next, computes the skeleton and distance transform of each cell, which are then measured, returning a data table with all the metrics
     Further info (i.e., experiment, strain name, day) can be added later, but this is better done in a loop
 
+    We recommend letting the function read the images, as this will allow for mapping of the cells to the images, facilitating downstream analyses and debugging
+
     Args:
         maskfilelist(list): list of instance segmentation masks paths or already loaded images
         from_files(bool): If True, assumes that the masks are to be read first
+        return_skeleton_paths(bool): If True, will get the candidate skeleton paths from SkeletonMeasure
 
     Returns:
         df(pd.DataFrame): pandas DataFrame with the cell size information of all the analyzed cells
+        paths(list): if return_skeleton_paths=True, returns the candidate skeleton paths for each single cell
     """
     if from_files:
         masks = [io.imread(maskfile) for maskfile in maskfilelist]
@@ -324,6 +332,21 @@ def SizeDataFrame(maskfilelist:list, from_files:bool=True, return_skeleton_paths
 
     measures = [SkeletonMeasure(skel,dist,return_paths=return_skeleton_paths) for skel,dist in zip(skeletons,distances)]
 
+    labels = [np.unique(mask)[1:] for mask in masks]
+
+    if from_files:
+
+        imgname_list = []
+
+        for label,mask in zip(labels,maskfilelist):
+
+            imgnames = [mask for l in label]
+
+            imgname_list.append(imgnames)
+
+
+    labels = np.concatenate(labels)
+    
     L = [metric[0] for metric in measures]
     w = [np.mean(metric[1]) for metric in measures]
     S = [metric[2] for metric in measures]
@@ -331,72 +354,26 @@ def SizeDataFrame(maskfilelist:list, from_files:bool=True, return_skeleton_paths
     
     df = pd.DataFrame()
 
-    df.insert(0,'Width',w)
-    df.insert(1,'Length',L)
-    df.insert(2,'SurfaceArea',S)
-    df.insert(3,'Volume',V)
+    df.insert(0,'Labels',labels)
+    df.insert(1,'Width',w)
+    df.insert(2,'Length',L)
+    df.insert(3,'SurfaceArea',S)
+    df.insert(4,'Volume',V)
 
-    return df
+    if from_files:
 
-def SizeDataFrame_Localizer(maskfilelist:list)->pd.DataFrame:
+        imnames = np.concatenate(imgname_list)
 
-    """Function that analyses the images from a list of files and returns a pandas DataFrame with the cell size.
-    In this function, cell IDs as well as the name of the image are kept. Thus, the list passed must be a list of paths
-    It separates all the masks found in the images passed, then smoothes them by eroding and dilating them, adding a pad to prevent skeletons or distances to be on the edge
-    Next, computes the skeleton and distance transform of each cell, which are then measured, returning a data table with all the metrics
-    Further info (i.e., experiment, strain name, day) can be added later, but this is better done in a loop
-    For each image, an individual DatFrame is computed, and all of them are concatenated for the final output
-    
-    Args:
-        maskfilelist(list): list of instance segmentation masks paths 
+        df.insert(0,'Image_full_path',imnames)
 
-    Returns:
-        final_df(pd.DataFrame): pandas DataFrame with the cell size information of all the analyzed cells, as well as the individual cell ID and the image they were obtained from
-    """
+        images =[img.split('/')[-1] for img in imnames]
 
-    dfs = []
+        df.insert(1,'Image',images)
 
-    masks = [io.imread(maskfile) for maskfile in maskfilelist]
+    if return_skeleton_paths:
+        paths = measures[-1]
 
-    for i in range(len(masks)):
-
-        mask = masks[i]
-        
-        reg = regionprops_table(mask,properties=['label','image'])
-        cells = [binary_fill_holes(image) for image in reg['image']]
-        
-        cells = [np.pad(binary_dilation(binary_erosion(cell)),pad_width=4) for cell in cells]
-        skeletons = [skeletonize(cell) for cell in cells]
-        distances = [distance_transform_edt(cell) for cell in cells]
-        
-        measures = [SkeletonMeasure(skel,dist) for skel,dist in zip(skeletons,distances)]
-        
-        L = [metric[0] for metric in measures]
-        w = [np.mean(metric[1]) for metric in measures]
-        S = [metric[2] for metric in measures]
-        V = [metric[3] for metric in measures]
-        
-        df = pd.DataFrame()
-
-        mask_name = maskfilelist[i].split('/')[-1]
-
-        df.insert(0,'ID',reg['label'])
-        df.insert(0,'Mask',mask_name)
-        df.insert(2,'Width',w)
-        df.insert(3,'Length',L)
-        df.insert(4,'SurfaceArea',S)
-        df.insert(5,'Volume',V)
-
-        dfs.append(df)
-
-    if len(dfs) > 1:
-
-        final_df = pd.concat(dfs,ignore_index=True)
-
-        return final_df
+        return df,paths
     
     else:
-        final_df = dfs[0]
-
-        return final_df
-    
+        return df
