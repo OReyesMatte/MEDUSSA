@@ -15,6 +15,32 @@ A set of functions to measure rod-shaped cells from segmentation masks, estimate
 - `MEDUSSA_example.ipynb`: example notebook on how to load `MEDUSSA` and run the whole pipeline of deconvolution, segmentation, and measurement
   
 ## Installing MEDUSSA
+The installation of all the libraries to run the full MEDUSSA pipeline (Deconvolution, Segmentation, Measurement) can be tricky mainly because of two factors:
+
+- CARE runs on TensorFlow and Omnipose on PyTorch, and existing environments can make clashes between the two softwares
+- One of the libraries Omnipose uses, peakdetect, has not been mantained for many years, and one of the functions it calls requires very old versions of SciPy to keep consistent function calls
+
+Installation of both _the necessary TensorFlow and PyTorch_ to run both CARE and Omnipose can be done in a fresh environment, for which we provide the instructions below.
+
+If you prefer to keep everything in a pure PyTorch environment, we're working on versions of the CARE models using the [CAREamics](https://github.com/CAREamics/careamics) framework.
+
+### Installation (macOS and Linux)
+For this, we recommend using a environment manager like [miniforge](https://github.com/conda-forge/miniforge). Follow the installation instructions for your system. Another benefit is that having an environment with Omnipose allows running the segmentation on FIJI using the [BIOP wrappers](https://github.com/BIOP/ijl-utilities-wrappers) (follow the link for explanations on how to install and use!).
+
+Next, find and open a terminal window, and run the following command:
+
+`conda create -n medussa_env -y && conda activate medussa_env`
+
+This will create and put you in a fresh environment so you can install the necessary libraries.
+
+Now, download the `medussa_install` file that corresponds to your operating system. The distinction is because newer versions of TensorFlow have separate install sites for different operating systems, so the distintction is necessary to allow for deconvolutions.
+
+In the same terminal that you opened and in the `medussa_env` environment, run `sh medussa_install_macos` or `sh medussa_install_linux` according to your operating system. This will take a few minutes.
+
+To then test the installation, run `omnipose` on your terminal. It will ask you to install the PyQt6 dependencies, type `y` and press enter to continue the installation. After that, the Omnipose GUI should open.
+
+Congrats! You successfully installed the necessary MEDUSSA libraries! Time to process your images!
+
 
 ## CARE 
 The environment and notebooks to train the deconvolution prediction models outlined in the manuscript (refer to Figure 3 to see the results). Please refer to the [CSBDeep documentation](https://github.com/CSBDeep/CSBDeep) for installation instructions

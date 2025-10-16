@@ -1,0 +1,10 @@
+conda install python=3.10 -c conda-forge -y
+pip install omnipose csbdeep tensorflow-macos numpy pandas pyarrow seaborn pymc scipy scikit-image opencv-python natsort
+
+## We need to modify the peakdetect.py file so omnipose can properly run
+
+mv miniforge3/envs/medussa_env/lib/python3.10/site-packages/peakdetect/peakdetect.py .
+
+sed 's/from scipy import fft, ifft/from scipy.fft import ifft/g' peakdetect.py > miniforge3/envs/medussa_env/lib/python3.10/site-packages/peakdetect/peakdetect.py
+
+rm peakdetect.py
