@@ -46,7 +46,7 @@ In the "Figures" folder, you'll find each element necessary to reproduce the fig
 
 ### References
 
-- [Main article]() Reyes-Matte, M., Fortmann-Grote, C., Gericke, B., Hüttman, N., Ojkic, N., & Lopez-Garrido, J. (2025). Deep-learning-based segmentation of fluorescent membranes for high precision cell size studies in bacteria
+- [Main article]() Reyes-Matte, M., Fortmann-Grote, C., Gericke, B., Hüttman, N., Ojkic, N., & Lopez-Garrido, J. (2025). Deep-learning-based deconvolution and segmentation of fluorescent membranes for high precision bacterial cell size profiling
 - [CARE](https://www.nature.com/articles/s41592-018-0216-7) Weigert, M., Schmidt, U., Boothe, T., Müller, A., Dibrov, A., Jain, A., ... & Myers, E. W. (2018). Content-aware image restoration: pushing the limits of fluorescence microscopy. _Nature methods_, 15(12), 1090-1097.
 - [Omnipose](https://www.nature.com/articles/s41592-022-01639-4) Cutler, K. J., Stringer, C., Lo, T. W., Rappez, L., Stroustrup, N., Brook Peterson, S., … & Mougous, J. D. (2022). Omnipose: a high-precision morphology-independent solution for bacterial cell segmentation. _Nature methods_, 19(11), 1438-1448.
 
