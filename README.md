@@ -15,6 +15,8 @@ A set of functions to measure rod-shaped cells from segmentation masks, estimate
 - `MEDUSSA_example.ipynb`: example notebook on how to load `MEDUSSA` and run the whole pipeline of deconvolution, segmentation, and measurement
   
 ## Installing MEDUSSA
+If you are only interested in the measuring functions, you can install them with `pip install medussa`.
+
 The installation of all the libraries to run the full MEDUSSA pipeline (Deconvolution, Segmentation, Measurement) can be tricky mainly because of two factors:
 
 - CARE runs on TensorFlow and Omnipose on PyTorch, and existing environments can make clashes between the two softwares
