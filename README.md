@@ -1,4 +1,7 @@
 # MEDUSSA (MEmbrane DeconvolUtion and Segmentation for Size Analyses)
+![](https://github.com/OReyesMatte/MEDUSSA/blob/main/README_images/workflow.png)
+
+
 Repository to access the different notebooks and information of the paper "Deep-learning-based deconvolution and segmentation of fluorescent membranes for high precision bacterial cell size profiling"
 
 Here you'll find the information of the different environments used for specific tasks (data plotting, restoration, segmentation)
