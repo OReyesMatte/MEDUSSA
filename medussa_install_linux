@@ -1,5 +1,5 @@
 conda install python=3.10 -c conda-forge -y
-pip install omnipose csbdeep tensorflow numpy pandas pyarrow seaborn pymc scipy scikit-image opencv-python natsort
+pip install cell_medussa omnipose csbdeep tensorflow-macos pyarrow seaborn natsort
 
 ## We need to modify the peakdetect.py file so omnipose can properly run
 
