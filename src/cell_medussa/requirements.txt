@@ -1,4 +1,4 @@
-###Python==3.10.17
+###Python>=3.11
 
 csbdeep==0.8.1
 matplotlib==3.10.3
