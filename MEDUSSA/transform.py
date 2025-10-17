@@ -4,19 +4,28 @@ from scipy.stats import norm
 from itertools import product
 from pymc import HalfCauchy, Model, Normal, sample
 
-def BayesianGLM(full_data:pd.DataFrame,metrics:list,GT_key:str,Target_key:str)->pd.DataFrame:
+def BayesianGLM(full_data:pd.DataFrame,metrics:list,GT_key:str,Target_key:str,sample_size:int=3000)->pd.DataFrame:
 
-    """Run a Bayesian Generalized Linear Model (GLM). The GLM is computed for a normal linear relationship (y ~ mx + n + σ).
+    """Run a Bayesian Generalized Linear Model (GLM). The GLM is computed for a normal linear relationship (y ~ mx + n + sigma).
+    Keep in mind that this function was designed to transform values that exhibited a linear relationship between them. The function itself may not be suited for your specfic case, so be mindful.
     The slope (m) and intercept (n) are drawn from prior normal distributions (continuous positive and negative values)
-    The error of the sampling (σ) are drawn from a Half-Cauchy distribution (only positive continuous values)
+    The error of the sampling (sigma) are drawn from a Half-Cauchy distribution (only positive continuous values)
     
+    For input, it expects a dataset where each metric to transform has separate columns both for the ground-truth and target data, followed by an underscore and some string that helps differentiate between both. For example, on a comparison of GFP fluorescence, there would be a "GFP_input" column and a "GFP_prediction" column, where "GFP" is the metric, "input" ground-truth key and "prediction" the measurement key.
+
+    Baseline, the function will sample 3000 parameter groups (m,n,sigma) four times, giving a total of 12000 possible value combinations. This can be changed with the "sample_size" argument.
+
+    The output data frame contains five columns: Metric, Chain, Slope, Intercept, Sigma, and each row is a sampling event
+
     Args:
-        - full_data(pd.DataFrame): a data frame containing the metrics of the ground truth (GT) and target data
+        - full_data(pd.DataFrame): a data frame containing the metrics of the ground-truth and target data
         - metrics(list): the metrics for which you want to compute the Bayesian GLM
-        
+        - GT_key(str): the column identifier for the ground-truth measurements
+        - Target_key(str): the column identifier for the input measurements
+        - sample_size(int): how many group of parameters are sampled in each chain (default 3000)
         
     Returns:
-        - df_posteriors(pd.DataFrame):
+        - df_posteriors(pd.DataFrame): data frame with all the sampled [m,n,sigma] values for each metric
 
     """
 
@@ -41,7 +50,7 @@ def BayesianGLM(full_data:pd.DataFrame,metrics:list,GT_key:str,Target_key:str)->
             likelihood = Normal('y', mu = intercept + slope * x, sigma=sigma, observed=y)
 
             ## For inference, draw N posterior samples
-            idata = sample(3000)
+            idata = sample(sample_size)
 
         ## Obtain posterior distributions
         post_slope = np.array(idata.posterior.slope)

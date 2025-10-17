@@ -33,40 +33,44 @@ def BorderElements(masks:np.array, border:int):
         border(int): how many pixels are to be considered part of the border
 
     Returns:
-        an array with the labels of objects on the borders
+        border_elements(np.array): an array with the labels of objects on the borders
     """
 
     n = masks.shape[0]
     r = np.minimum(np.arange(n)[::-1], np.arange(n))
 
-    a =  masks[np.minimum(r[:,None],r) < border]
+    border_elements =  masks[np.minimum(r[:,None],r) < border]
 
-    return a[a.nonzero()]
+    border_elements = border_elements[border_elements.nonzero()]
+
+    border_elements = np.unique(border_elements)
+
+    return border_elements
 
 def BorderRemoval(masks:np.array,border:int=2)->np.array:
 
     """Remove the segmentation masks that are on the edge of the image. If a mask is truncated, we don't know how much mask is missing, therefore making size calculations innacurate
     
      Args:
-        masks(np.array): instance segmentation masks
+        - masks(np.array): instance segmentation masks
 
     Returns: 
-        If no cells are found in the border, returns the same image
-        Else, it returns the mask image with the cells removed, keeping the original labels of the remaining cells
+        - If no cells are found in the border, returns the same image
+        - Else, it returns the mask image with the cells removed, keeping the original labels of the remaining cells
     """
 
-    borderIDs = BorderElements(masks=masks,border=border)
+    border_elements = BorderElements(masks=masks,border=border)
 
-    if len(borderIDs) == 0:
+    if len(border_elements) == 0:
         return masks
 
     else:
         
         CopyArray = np.copy(masks)
 
-        for ID in borderIDs:
+        for idx in border_elements:
 
-            Negative_mask = (masks != ID)
+            Negative_mask = (masks != idx)
         
             CopyArray *= Negative_mask
     
