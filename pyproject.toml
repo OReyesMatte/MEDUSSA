@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cell_medussa"
+version = "0.0.1"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cell_medussa"]
+
+authors = [
+  { name="Octavio Reyes-Matte", email="reyesmatte@proton.me" },
+  { name="Carsten Fortmann-Grote"},
+  { name="Beate Gericke"},
+  { name="Nikola Ojkic"},
+  { name="Javier Lopez-Garrido"}
+]
+
+maintainers = [
+  {name="Octavio Reyes-Matte", email = "reyesmatte@proton.me"}
+]
+
+description = "The MEDUSSA functions for cell size measurement, measurement transformations and other utilities"
+readme = "README.md"
+requires-python = ">=3.11"
+
+dependencies = [
+  "numpy","pandas","opencv-python","pymc","scikit-image","scipy"
+]
+
+keywords = ["measurements","rod-shaped","cell size","image processing"]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICENSE*"]
+
+[project.urls]
+Homepage = "https://github.com/OReyesMatte/MEDUSSA"
+Issues = "https://github.com/OReyesMatte/MEDUSSA/issues"
+
