@@ -1,5 +1,5 @@
 # MEDUSSA (MEmbrane DeconvolUtion and Segmentation for Size Analyses)
-![](https://github.com/OReyesMatte/MEDUSSA/blob/main/README_images/workflow.png)
+![](https://github.com/OReyesMatte/MEDUSSA/blob/main/workflow.png)
 
 
 Repository to access the different notebooks and information of the paper "Deep-learning-based deconvolution and segmentation of fluorescent membranes for high precision bacterial cell size profiling"
@@ -43,7 +43,7 @@ Now, download the `medussa_install` file that corresponds to your operating syst
 In the same terminal that you opened and in the `medussa_env` environment, run `sh medussa_install_macos` or `sh medussa_install_linux` according to your operating system. This will take a few minutes.
 
 To then test the installation, run `omnipose` on your terminal. It will ask you to install the PyQt6 dependencies, type `y` and press enter to continue the installation. After that, the Omnipose GUI should open.
-![Terminal screenshot, black background with white letters asking for the installation of GUI dependencies](https://github.com/OReyesMatte/MEDUSSA/blob/main/README_images/omnipose_installation.png)
+![Terminal screenshot, black background with white letters asking for the installation of GUI dependencies](https://github.com/OReyesMatte/MEDUSSA/blob/main/omnipose_installation.png)
 
 
 Congrats! You successfully installed the necessary MEDUSSA libraries! Time to process your images!
