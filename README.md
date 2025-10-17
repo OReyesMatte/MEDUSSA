@@ -1,11 +1,11 @@
-# MEDUSSA (MEmbrane DeconvolUtion and Segmentation for Size Analyses)
+# R-MEDUSSA (Rod-shaped MEmbrane DeconvolUtion and Segmentation for Size Analyses)
 Repository to access the different notebooks and information of the paper "Deep-learning-based deconvolution and segmentation of fluorescent membranes for high precision bacterial cell size profiling"
 
 Here you'll find the information of the different environments used for specific tasks (data plotting, restoration, segmentation)
 
 The `.yml` files are directly exported from conda environments used in the study,which were used in a HPC computing cluster, and are found in the respective folder of the task they're used for.
 
-## MEDUSSA
+## R-MEDUSSA
 A set of functions to measure rod-shaped cells from segmentation masks, estimate parameters to transform the data to account for segmentation error propagation, and sample data distributions. 
 
 - `measure.py`: functions that calculate cell size measurement images of segmentation masks in cell size measurements: Length, Width, Surface Area, and Volume
@@ -14,8 +14,8 @@ A set of functions to measure rod-shaped cells from segmentation masks, estimate
 - `requirements.txt`: minimum software requirements to run the functions in both `measure.py` and `transform.py` 
 - `MEDUSSA_example.ipynb`: example notebook on how to load `MEDUSSA` and run the whole pipeline of deconvolution, segmentation, and measurement
   
-## Installing MEDUSSA
-If you are only interested in the measuring functions, you can install them with `pip install medussa`.
+## Installing R-MEDUSSA
+If you are only interested in the measuring functions, you can install them with `pip install`.
 
 The installation of all the libraries to run the full MEDUSSA pipeline (Deconvolution, Segmentation, Measurement) can be tricky mainly because of two factors:
 
