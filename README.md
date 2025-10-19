@@ -1,7 +1,6 @@
 # MEDUSSA (MEmbrane DeconvolUtion and Segmentation for Size Analyses)
 ![](https://github.com/OReyesMatte/MEDUSSA/blob/main/workflow.png)
 
-
 Repository to access the different notebooks and information of the paper "Deep-learning-based deconvolution and segmentation of fluorescent membranes for high precision bacterial cell size profiling"
 
 Here you'll find the information of the different environments used for specific tasks (data plotting, restoration, segmentation)
@@ -14,7 +13,6 @@ A set of functions to measure rod-shaped cells from segmentation masks, estimate
 - `measure.py`: functions that calculate cell size measurement images of segmentation masks in cell size measurements: Length, Width, Surface Area, and Volume
 - `transform.py`: functions that allow to transform the obtained metrics either by sampling parameters from a linear relationship to calculating confidence intervals
 - `utils.py`: functions for changing segmentation labels, removing truncated edge masks, and calculating distribution intersections
-- `requirements.txt`: minimum software requirements to run the functions in both `measure.py` and `transform.py` 
 - `MEDUSSA_example.ipynb`: example notebook on how to load `MEDUSSA` and run the whole pipeline of deconvolution, segmentation, and measurement
   
 ## Installing MEDUSSA
