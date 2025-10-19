@@ -13,7 +13,8 @@ A set of functions to measure rod-shaped cells from segmentation masks, estimate
 - `measure.py`: functions that calculate cell size measurement images of segmentation masks in cell size measurements: Length, Width, Surface Area, and Volume
 - `transform.py`: functions that allow to transform the obtained metrics either by sampling parameters from a linear relationship to calculating confidence intervals
 - `utils.py`: functions for changing segmentation labels, removing truncated edge masks, and calculating distribution intersections
-- `MEDUSSA_example.ipynb`: example notebook on how to load `MEDUSSA` and run the whole pipeline of deconvolution, segmentation, and measurement
+
+The notebook `MEDUSSA_example.ipynb` shows an example on how to load `MEDUSSA` and run the whole pipeline of deconvolution, segmentation, and measurement
   
 ### Installation
 
