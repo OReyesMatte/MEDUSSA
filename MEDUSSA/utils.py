@@ -1,5 +1,53 @@
-from scipy.stats import gaussian_kde
 import numpy as np
+
+def InstallCheck():
+
+    """Function to check if MEDUSSA and the necessary libraries are installed in your environment"""
+
+    deps = 0 
+
+    try:
+        import numpy as np
+        deps += 1
+    except:
+        print("numpy is not installed!")
+
+    try:
+        import cv2
+        deps += 1
+    except:
+        print("opencv-python is not installed!")
+
+    try:
+        import pandas as pd
+        deps += 1
+    except:
+        print("pandas is not installed!")
+
+    try:
+        import pymc
+        deps += 1
+    except:
+        print("PYMC is not installed!")
+
+    try:
+        from skimage import io
+        deps += 1
+    except:
+        print("scikit-image is not installed!")
+
+    try:
+        import scipy import ndimage
+        deps += 1
+    except:
+        print("scipy is not installed!")
+
+    if deps == 6:
+        print("All the base MEDUSSA functions can be used!")
+    else:
+        print("Make sure to check and install the libraries!")
+
+
 
 def Relabeler(template_masks:np.array,input_masks:np.array)->np.array:
 
@@ -78,6 +126,9 @@ def BorderRemoval(masks:np.array,border:int=2)->np.array:
 
 
 def IntersectionKDE(x0:np.array,x1:np.array):
+
+    from scipy.stats import gaussian_kde
+
 
     """Calculate the Kernel Density Estimate (KDE) for two data distributions and compute their intersection.
     Please refer to the  gaussian_kde documentation in https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.gaussian_kde.html from SciPy for more details on the estimation
