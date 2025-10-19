@@ -15,8 +15,19 @@ A set of functions to measure rod-shaped cells from segmentation masks, estimate
 - `utils.py`: functions for changing segmentation labels, removing truncated edge masks, and calculating distribution intersections
 - `MEDUSSA_example.ipynb`: example notebook on how to load `MEDUSSA` and run the whole pipeline of deconvolution, segmentation, and measurement
   
-## Installing MEDUSSA
-If you are only interested in the measuring functions, you can install them with `pip install`.
+## Installation
+
+### MEDUSSA functions only
+
+If you are only interested in the measuring functions, the easiest is to clone the repo
+```
+git clone https://github.com/OReyesMatte/MEDUSSA/.git
+```
+
+Or download the source code archive
+```
+wget https://github.com/OReyesMatte/MEDUSSA/archive/master.zip
+```
 
 The installation of all the libraries to run the full MEDUSSA pipeline (Deconvolution, Segmentation, Measurement) can be tricky mainly because of two factors:
 
@@ -31,8 +42,9 @@ If you prefer to keep everything in a pure PyTorch environment, we're working on
 For this, we recommend using a environment manager like [miniforge](https://github.com/conda-forge/miniforge). Follow the installation instructions for your system. Another benefit is that having an environment with Omnipose allows running the segmentation on FIJI using the [BIOP wrappers](https://github.com/BIOP/ijl-utilities-wrappers) (follow the link for explanations on how to install and use!).
 
 Next, find and open a terminal window, and run the following command:
-
-`conda create -n medussa_env -y && conda activate medussa_env`
+```
+conda create -n medussa_env -y && conda activate medussa_env
+```
 
 This will create and put you in a fresh environment so you can install the necessary libraries.
 
