@@ -15,9 +15,16 @@ A set of functions to measure rod-shaped cells from segmentation masks, estimate
 - `utils.py`: functions for changing segmentation labels, removing truncated edge masks, and calculating distribution intersections
 - `MEDUSSA_example.ipynb`: example notebook on how to load `MEDUSSA` and run the whole pipeline of deconvolution, segmentation, and measurement
   
-## Installation
+### Installation
 
-### MEDUSSA functions only
+We strongly recommend using conda or any other environment manager to prevent compatibility issues between libraries. For this, we recommend using a environment manager like [miniforge](https://github.com/conda-forge/miniforge). Follow the installation instructions for your system. Another benefit is that having an environment with Omnipose allows running the segmentation on FIJI using the [BIOP wrappers](https://github.com/BIOP/ijl-utilities-wrappers) (follow the link for explanations on how to install and use!).
+
+
+Next, find and open a terminal window, and run the following command:
+
+```
+conda create -n medussa_env -c conda-forge python=3.11 numpy -y && conda activate medussa_env
+```
 
 If you are only interested in the measuring functions, the easiest is to clone the repo
 ```
@@ -27,7 +34,31 @@ git clone https://github.com/OReyesMatte/MEDUSSA/.git
 Or download the source code archive
 ```
 wget https://github.com/OReyesMatte/MEDUSSA/archive/master.zip
+unzip master.zip -d MEDUSSA
 ```
+
+Then go to the directory 
+```
+cd MEDUSSA
+```
+
+### MEDUSSA functions only using `pip`
+
+In your terminal, with the `medussa_env` environment, run
+
+```
+pip install -r requirements.txt
+```
+
+Then, on your terminal, run `python`, which will open the Python interpreter, there runt:
+```
+from MEDUSSA.utils import InstallCheck
+InstallCheck()
+```
+If the output message is `"All the base MEDUSSA functions can be used!"`, congrats! You can start measuring your segmented cells!
+
+
+### All the functions used in the paper
 
 The installation of all the libraries to run the full MEDUSSA pipeline (Deconvolution, Segmentation, Measurement) can be tricky mainly because of two factors:
 
@@ -37,18 +68,6 @@ The installation of all the libraries to run the full MEDUSSA pipeline (Deconvol
 Installation of both _the necessary TensorFlow and PyTorch_ to run both CARE and Omnipose can be done in a fresh environment, for which we provide the instructions below.
 
 If you prefer to keep everything in a pure PyTorch environment, we're working on versions of the CARE models using the [CAREamics](https://github.com/CAREamics/careamics) framework.
-
-### Installation (macOS and Linux)
-For this, we recommend using a environment manager like [miniforge](https://github.com/conda-forge/miniforge). Follow the installation instructions for your system. Another benefit is that having an environment with Omnipose allows running the segmentation on FIJI using the [BIOP wrappers](https://github.com/BIOP/ijl-utilities-wrappers) (follow the link for explanations on how to install and use!).
-
-Next, find and open a terminal window, and run the following command:
-```
-conda create -n medussa_env -y && conda activate medussa_env
-```
-
-This will create and put you in a fresh environment so you can install the necessary libraries.
-
-Now, download the `medussa_install` file that corresponds to your operating system. The distinction is because newer versions of TensorFlow have separate install sites for different operating systems, so the distintction is necessary to allow for deconvolutions.
 
 In the same terminal that you opened and in the `medussa_env` environment, run `sh medussa_install_macos` or `sh medussa_install_linux` according to your operating system. This will take a few minutes.
 
