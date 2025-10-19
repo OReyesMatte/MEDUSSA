@@ -57,7 +57,6 @@ InstallCheck()
 ```
 If the output message is `"All the base MEDUSSA functions can be used!"`, congrats! You can start measuring your segmented cells!
 
-
 ### All the functions used in the paper
 
 The installation of all the libraries to run the full MEDUSSA pipeline (Deconvolution, Segmentation, Measurement) can be tricky mainly because of two factors:
@@ -75,7 +74,7 @@ To then test the installation, run `omnipose` on your terminal. It will ask you 
 ![Terminal screenshot, black background with white letters asking for the installation of GUI dependencies](https://github.com/OReyesMatte/MEDUSSA/blob/main/omnipose_installation.png)
 
 
-Congrats! You successfully installed the necessary MEDUSSA libraries! Time to process your images!
+Congrats! You successfully installed the necessary MEDUSSA libraries! You can run the `MEDUSSA_example.pynb` notebook to see the pipeline in action!
 
 
 ## CARE 
