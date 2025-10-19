@@ -37,7 +37,7 @@ def InstallCheck():
         print("scikit-image is not installed!")
 
     try:
-        import scipy import ndimage
+        from scipy import ndimage
         deps += 1
     except:
         print("scipy is not installed!")

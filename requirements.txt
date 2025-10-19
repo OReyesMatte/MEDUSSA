@@ -7,3 +7,4 @@ pandas
 pymc
 scikit-image
 scipy
+jupyter
