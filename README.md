@@ -86,6 +86,8 @@ If you wish to re-train the models, you'll need access to a computer with a GPU 
 The environment and notebooks to train the deconvolution prediction models outlined in the manuscript (refer to Figure 3 to see the results). Please refer to the [CSBDeep documentation](https://github.com/CSBDeep/CSBDeep) for installation instructions
 
 - `care.yml`: conda environment file with the software specifications when training and segmenting
+- `FM2FM.zip`: the deconvolved membrane prediction model from another fluorescence membrane image.
+- - `FM2FM.zip`: the deconvolved membrane prediction model from a cytoplasmic fluorescence.
  
 #### The following notebooks are adapted from the official [CSBDeep repository](https://github.com/CSBDeep/CSBDeep)
 - `Preparation.ipynb`: transforming the data into patches and exporting them into .npz files for training
@@ -100,6 +102,9 @@ The environment and command train the segmentation models outlined in the manusc
 - `omnipose_GPU.yml`: conda environment file with the software specifications for using with GPUs. This environment was used for model training, and can also be used for segmentation.
 - `Omnipose_CLI.txt`: the command used to train the Omnipose segmentation model, including specifications of hardware. GPU **very** necessary
 - `Omnipose_segmentation.ipynb`: Jupyter notebook exemplifying how to load a custom model and running it
+- `FMSeg`: the segmentation model for deconvolved membranes
+- `RawFMSeg`: the segmentation model for non-deconvolved membranes
+
 
 Images (training and testing images and masks) can be found in:
 
