@@ -5,7 +5,7 @@ Repository to access the different notebooks and information of the paper "Deep-
 
 Here you'll find the information of the different environments used for specific tasks (data plotting, restoration, segmentation)
 
-The `.yml` files are directly exported from conda environments used in the study,which were used in a HPC computing cluster, and are found in the respective folder of the task they're used for.
+We provide `.yml` files of the different environments used for training the models in the study, which were used in a HPC computing cluster, and are found in the respective folder of the task they're used for.
 
 ## MEDUSSA
 A set of functions to measure rod-shaped cells from segmentation masks, estimate parameters to transform the data to account for segmentation error propagation, and sample data distributions. 
