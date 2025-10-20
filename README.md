@@ -56,7 +56,7 @@ Then, on your terminal, run `python`, which will open the Python interpreter, th
 from MEDUSSA.utils import InstallCheck
 InstallCheck()
 ```
-If the output message is `"All the base MEDUSSA functions can be used!"`, congrats! You can start measuring your segmented cells!
+If the output message is `"All the base MEDUSSA functions can be used!"`, congrats! You can start measuring your segmented cells! If not, the function will specify which libraries are not installed. All of them can be installed with `pip`.
 
 ### All the functions used in the paper
 
