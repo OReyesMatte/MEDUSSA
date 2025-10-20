@@ -62,10 +62,10 @@ If the output message is `"All the base MEDUSSA functions can be used!"`, congra
 
 The installation of all the libraries to run the full MEDUSSA pipeline (Deconvolution, Segmentation, Measurement) can be tricky mainly because of two factors:
 
-- CARE runs on TensorFlow and Omnipose on PyTorch, and existing environments can make clashes between the two softwares
+- CARE runs on TensorFlow and Omnipose on PyTorch, and existing environments can make clashes between the two libraries
 - One of the libraries Omnipose uses, peakdetect, has not been mantained for many years, and one of the functions it calls requires very old versions of SciPy to keep consistent function calls
 
-Installation of both _the necessary TensorFlow and PyTorch_ to run both CARE and Omnipose can be done in a fresh environment, for which we provide the instructions below.
+Installation of both _the necessary TensorFlow and PyTorch_ to run both CARE and Omnipose can be done in a fresh environment (like the `medussa_env` created in the previous step), for which we provide the instructions below.
 
 If you prefer to keep everything in a pure PyTorch environment, we're working on versions of the CARE models using the [CAREamics](https://github.com/CAREamics/careamics) framework.
 
@@ -78,19 +78,23 @@ To then test the installation, run `omnipose` on your terminal. It will ask you 
 Congrats! You successfully installed the necessary MEDUSSA libraries! You can run the `MEDUSSA_example.pynb` notebook to see the pipeline in action!
 
 
-## CARE 
+## Model training
+
+If you wish to re-train the models, you'll need access to a computer with a GPU or access to HPC infrastructure due to resource demands of model training. Alternatively, you can access just the training images and use them in your own models, provided you give proper credit :-)
+
+### CARE 
 The environment and notebooks to train the deconvolution prediction models outlined in the manuscript (refer to Figure 3 to see the results). Please refer to the [CSBDeep documentation](https://github.com/CSBDeep/CSBDeep) for installation instructions
 
 - `care.yml`: conda environment file with the software specifications when training and segmenting
  
-### The following notebooks are adapted from the official [CSBDeep repository](https://github.com/CSBDeep/CSBDeep)
+#### The following notebooks are adapted from the official [CSBDeep repository](https://github.com/CSBDeep/CSBDeep)
 - `Preparation.ipynb`: transforming the data into patches and exporting them into .npz files for training
 - `Train.ipynb`: model training with the same parameters of the one used in the paper. GPU **very** necessary
 - `Predict.ipynb`: notebook showing how to load a trained model and use it on new data
 
 Training images can be found in:
 
-## Omnipose
+### Omnipose
 The environment and command train the segmentation models outlined in the manuscript (refer to Figure 2 and Supplementary Figure 2 to see the results). Please refer to the [Omnipose documentation](https://omnipose.readthedocs.io/) for installation instructions
 
 - `omnipose_GPU.yml`: conda environment file with the software specifications for using with GPUs. This environment was used for model training, and can also be used for segmentation.
