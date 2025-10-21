@@ -354,7 +354,7 @@ def SizeDataFrame(maskfilelist:list, from_files:bool=True, return_skeleton_paths
     
     df = pd.DataFrame()
 
-    df.insert(0,'Labels',labels)
+    df.insert(0,'label',labels)
     df.insert(1,'Width',w)
     df.insert(2,'Length',L)
     df.insert(3,'SurfaceArea',S)
