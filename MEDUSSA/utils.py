@@ -47,8 +47,6 @@ def InstallCheck():
     else:
         print("Make sure to check and install the libraries!")
 
-
-
 def Relabeler(template_masks:np.array,input_masks:np.array)->np.array:
 
     """Taking two related instance segmentation image (i.e., ground-truth labels and benchmarking image), ensures only the same cells are compared.
@@ -123,7 +121,6 @@ def BorderRemoval(masks:np.array,border:int=2)->np.array:
             CopyArray *= Negative_mask
     
         return CopyArray
-
 
 def IntersectionKDE(x0:np.array,x1:np.array):
 
