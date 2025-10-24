@@ -236,7 +236,7 @@ def SkeletonMeasure(skeleton:np.array,distances:np.array,pixsize:float=33.02/512
 
                 newDistances = [calculate_total_distance(selected_paths)*pixsize for selected_paths in paths]
                 
-                M = [WSV(skeleton_points=selected_paths,mask_distance=distances) for selected_paths in paths]
+                M = [WSV(skeleton_points=selected_paths,mask_distance=distances,pixsize=pixsize) for selected_paths in paths]
 
                 Ws = [arr[0] for arr in M]
                 Ss = [arr[1] for arr in M]
@@ -266,7 +266,7 @@ def SkeletonMeasure(skeleton:np.array,distances:np.array,pixsize:float=33.02/512
                 longest_path = longest_path
                 
                 #### Get Width, Surface Area, and Volume
-                Width,Surface_area,Volume = WSV(skeleton_points=longest_path,mask_distance=distances)
+                Width,Surface_area,Volume = WSV(skeleton_points=longest_path,mask_distance=distances,pixsize=pixsize)
                 newDistance = calculate_total_distance(longest_path)
                 
                 #### For length, get the longest distance and add the hemispherical caps
@@ -299,7 +299,7 @@ def SingleCellLister(maskList:list) -> list:
 
     return AllCells
 
-def SizeDataFrame(maskfilelist:list, from_files:bool=True, return_skeleton_paths:bool=False):
+def SizeDataFrame(maskfilelist:list, from_files:bool=True, return_skeleton_paths:bool=False,pixsize:float=33.02/512):
 
     """Function that analyses the images from a list of files and returns a pandas DataFrame with the cell size.
     In this function, cell IDs are not considered. If you're interested in that, please use the SizeDataFrame_Localizer function instead.
@@ -330,7 +330,7 @@ def SizeDataFrame(maskfilelist:list, from_files:bool=True, return_skeleton_paths
     skeletons = [skeletonize(cell) for cell in cells]
     distances = [distance_transform_edt(cell) for cell in cells]
 
-    measures = [SkeletonMeasure(skel,dist,return_paths=return_skeleton_paths) for skel,dist in zip(skeletons,distances)]
+    measures = [SkeletonMeasure(skel,dist,return_paths=return_skeleton_paths,pixsize=pixsize) for skel,dist in zip(skeletons,distances)]
 
     labels = [np.unique(mask)[1:] for mask in masks]
 
