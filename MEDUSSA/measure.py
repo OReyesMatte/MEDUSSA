@@ -232,11 +232,22 @@ def SkeletonMeasure(skeleton:np.array,distances:np.array,pixsize:float=33.02/512
             if len(longest_path) > len(points):
                 paths = PathFinder(path=longest_path,points=points,threshold=threshold)
 
+                ### Candidate paths should account for at least 75% of the found skeleton points
+
+                newpaths = []
+
+                for p in paths:
+
+                    skel_perc = len(p)/len(points)
+
+                    if skel_perc >= 0.75:
+                        newpaths.append(p)
+                
                 #### Get Width, Surface Area, and Volume
 
-                newDistances = [calculate_total_distance(selected_paths)*pixsize for selected_paths in paths]
+                newDistances = [calculate_total_distance(selected_paths)*pixsize for selected_paths in newpaths]
                 
-                M = [WSV(skeleton_points=selected_paths,mask_distance=distances,pixsize=pixsize) for selected_paths in paths]
+                M = [WSV(skeleton_points=selected_paths,mask_distance=distances,pixsize=pixsize) for selected_paths in newpaths]
 
                 Ws = [arr[0] for arr in M]
                 Ss = [arr[1] for arr in M]
@@ -260,7 +271,7 @@ def SkeletonMeasure(skeleton:np.array,distances:np.array,pixsize:float=33.02/512
                     Surface_area = np.median(Ss)
                     Volume = np.median(Vs)
 
-                    return Length,Width,Surface_area,Volume,paths
+                    return Length,Width,Surface_area,Volume
 
             else:
                 longest_path = longest_path
