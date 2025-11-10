@@ -87,14 +87,14 @@ The environment and notebooks to train the deconvolution prediction models outli
 
 - `care.yml`: conda environment file with the software specifications when training and segmenting
 - `FM2FM.zip`: the deconvolved membrane prediction model from another fluorescence membrane image.
-- - `FM2FM.zip`: the deconvolved membrane prediction model from a cytoplasmic fluorescence.
+- `FM2FM.zip`: the deconvolved membrane prediction model from a cytoplasmic fluorescence.
  
 #### The following notebooks are adapted from the official [CSBDeep repository](https://github.com/CSBDeep/CSBDeep)
 - `Preparation.ipynb`: transforming the data into patches and exporting them into .npz files for training
 - `Train.ipynb`: model training with the same parameters of the one used in the paper. GPU **very** necessary
 - `Predict.ipynb`: notebook showing how to load a trained model and use it on new data
 
-Training images can be found in:
+Training and test images can be found at https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD2353
 
 ### Omnipose
 The environment and command train the segmentation models outlined in the manuscript (refer to Figure 2 and Supplementary Figure 2 to see the results). Please refer to the [Omnipose documentation](https://omnipose.readthedocs.io/) for installation instructions
@@ -105,8 +105,7 @@ The environment and command train the segmentation models outlined in the manusc
 - `FMSeg`: the segmentation model for deconvolved membranes
 - `RawFMSeg`: the segmentation model for non-deconvolved membranes
 
-
-Images (training and testing images and masks) can be found in:
+Training and test images and masks can be found at https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD2350
 
 ## Figure reproducibility
 
