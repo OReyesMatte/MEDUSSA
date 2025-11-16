@@ -1,6 +1,6 @@
 conda install python=3.11 -c conda-forge -y
 
-pip install cell_medussa omnipose csbdeep tensorflow-macos pyarrow seaborn natsort
+pip install cell_medussa omnipose csbdeep tensorflow pyarrow seaborn natsort
 
 ## We need to modify the peakdetect.py file so omnipose can properly run
 
