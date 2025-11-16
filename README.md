@@ -63,7 +63,7 @@ If the output message is `"All the base MEDUSSA functions can be used!"`, congra
 The installation of all the libraries to run the full MEDUSSA pipeline (Deconvolution, Segmentation, Measurement) can be tricky mainly because of two factors:
 
 - CARE runs on TensorFlow and Omnipose on PyTorch, and existing environments can make clashes between the two libraries
-- One of the libraries Omnipose uses, peakdetect, has not been mantained for many years, and one of the functions it calls requires very old versions of SciPy to keep consistent function calls
+- One of the libraries Omnipose uses, `peakdetect`, has not been mantained for many years, and one of the functions it calls requires very old versions of SciPy to keep consistent function calls
 
 Installation of both _the necessary TensorFlow and PyTorch_ to run both CARE and Omnipose can be done in a fresh environment (like the `medussa_env` created in the previous step), for which we provide the instructions below.
 
