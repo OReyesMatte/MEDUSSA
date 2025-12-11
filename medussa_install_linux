@@ -8,6 +8,6 @@ cd
 
 mv miniforge3/envs/medussa_env/lib/python3.12/site-packages/peakdetect/peakdetect.py .
 
-sed 's/from scipy import fft, ifft/from scipy.fft import ifft/g' peakdetect.py > miniforge3/envs/medussa_env/lib/python3.11/site-packages/peakdetect/peakdetect.py
+sed 's/from scipy import fft, ifft/from scipy.fft import ifft/g' peakdetect.py > miniforge3/envs/medussa_env/lib/python3.12/site-packages/peakdetect/peakdetect.py
 
 rm peakdetect.py
