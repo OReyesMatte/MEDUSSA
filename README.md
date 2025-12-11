@@ -51,7 +51,7 @@ In your terminal, with the `medussa_env` environment, run
 pip install -r requirements.txt
 ```
 
-Then, on your terminal, run `python`, which will open the Python interpreter, there runt:
+Then, on your terminal, run `python`, which will open the Python interpreter, there run:
 ```
 from MEDUSSA.utils import InstallCheck
 InstallCheck()
