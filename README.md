@@ -24,7 +24,7 @@ We strongly recommend using conda or any other environment manager to prevent co
 Next, find and open a terminal window, and run the following command:
 
 ```
-conda create -n medussa_env -c conda-forge python=3.11 numpy -y && conda activate medussa_env
+conda create -n medussa_env -c conda-forge python=3.12 numpy -y && conda activate medussa_env
 ```
 
 If you are only interested in the measuring functions, the easiest is to clone the repo
