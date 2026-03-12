@@ -1,0 +1,6 @@
+# Modify the number to specify the desired GPU
+# Training was done on the "deepbio" computer cluster at the Max Planck Institute for Evolutionary Biology. The cluster runs on Linux Ubuntu 22.04, and model was trained using a 12GB NVIDIA GeForce RTX 2080 Ti GPU
+
+export CUDA_VISIBLE_DEVICES=1
+
+omnipose --train --use_gpu --dir <dir> --pretrained_model None --mask_filter _Labels --learning_rate 0.1 --n_epochs 4000 --diameter 0 --RAdam --verbose --save_every 100 --nclasses 3
