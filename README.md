@@ -18,7 +18,7 @@ The notebook `MEDUSSA_example.ipynb` shows an example on how to load `MEDUSSA` a
   
 ### Installation
 
-We strongly recommend using conda or any other environment manager to prevent compatibility issues between libraries. For this, we recommend using a environment manager like [miniforge](https://github.com/conda-forge/miniforge). Follow the installation instructions for your system. Another benefit is that having an environment with Omnipose allows running the segmentation on FIJI using the [BIOP wrappers](https://github.com/BIOP/ijl-utilities-wrappers) (follow the link for explanations on how to install and use!).
+We strongly recommend using conda or any other environment manager to prevent compatibility issues between libraries. For this, we recommend using a environment manager like [miniforge](https://github.com/conda-forge/miniforge). Follow the installation instructions for your system. Another benefit is that having an environment with Omnipose allows running the segmentation on FIJI using the [BIOP wrappers](https://github.com/BIOP/ijl-utilities-wrappers) (follow the link for explanations on how to install and use!). In this case, we provide an easy installer for using the Omnipose fine-tuned models. Please refer to the [Cellpose](https://cellpose.readthedocs.io/en/latest/) and [microSAM](https://computational-cell-analytics.github.io/micro-sam/micro_sam.html) documentations for instructions on their installation instructions. 
 
 
 Next, find and open a terminal window, and run the following command:
@@ -77,18 +77,43 @@ To then test the installation, run `omnipose` on your terminal. It will ask you 
 
 Congrats! You successfully installed the necessary MEDUSSA libraries! You can run the `MEDUSSA_example.pynb` notebook to see the pipeline in action!
 
+## Using MEDUSSA on your own data
 
-## Model training
+Each aspect of the MEDUSSA pipeline (deconvolution prediction, segmentation, measurement) can be run independently from each other, so it can be integrated into existing pipelines. Each part indicates at the beginning what you need for each step.
+
+### Model training
 
 If you wish to re-train the models, you'll need access to a computer with a GPU or access to HPC infrastructure due to resource demands of model training. Alternatively, you can access just the training images and use them in your own models, provided you give proper credit :-)
+
+### Deconvolution prediction
+
+**What you need**: CARE library installed, fluorescent membrane images or cytoplasmic fluorescence images
+
+The FM2FM model can be used not only to predict a deconvolved image, but also to have cells in a singular focal plane through a Z-projection.
+
+### Segmentation
+
+**What you need**: your favorite segmentation library installed, fluorescent membrane images (raw or deconvolved)
+
+Omnipose and microSAM performed better on deconvolved images, with Omnipose also being able to segment elongated cells and microSAM allowing for interactive segmentation with the napari plugin. Cellpose3 and CellposeSAM performed better in raw images.
+
+### Cell size quantification
+
+**What you need**: instance segmentation masks 
+
+To quantify the cells, each mask in your image must have a unique, integer ID. Most segmentation software generate these automatically. If not, ensure that you can get this type of mask.
+
+The 'MEDUSSA.measure' functions allow for the measurement of cells directly from a specific image or also from a list of images. We recommend the `SizeDataFrame` function, as this will provide a table with all the measured cells. 
+
+## What else can you find here
 
 ### CARE 
 The environment and notebooks to train the deconvolution prediction models outlined in the manuscript (refer to Figure 3 to see the results). Please refer to the [CSBDeep documentation](https://github.com/CSBDeep/CSBDeep) for installation instructions
 
 - `care.yml`: conda environment file with the software specifications when training and segmenting
-- `FM2FM.zip`: the deconvolved membrane prediction model from another fluorescence membrane image.
-- `FM2FM.zip`: the deconvolved membrane prediction model from a cytoplasmic fluorescence.
- 
+
+Trained models can be found in [zenodo](https://zenodo.org/records/18978187)
+
 #### The following notebooks are adapted from the official [CSBDeep repository](https://github.com/CSBDeep/CSBDeep)
 - `Preparation.ipynb`: transforming the data into patches and exporting them into .npz files for training
 - `Train.ipynb`: model training with the same parameters of the one used in the paper. GPU **very** necessary
@@ -96,15 +121,30 @@ The environment and notebooks to train the deconvolution prediction models outli
 
 Training and test images can be found at https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD2353
 
-### Omnipose
-The environment and command train the segmentation models outlined in the manuscript (refer to Figure 2 and Supplementary Figure 2 to see the results). Please refer to the [Omnipose documentation](https://omnipose.readthedocs.io/) for installation instructions
+### Segmentation
+The environment files and commands for training the fine-tuned segmentation models outlined in the manuscript (refer to Figure 2 and Supplementary Figures 2 and 3 to see the results). 
 
-- `omnipose_GPU.yml`: conda environment file with the software specifications for using with GPUs. This environment was used for model training, and can also be used for segmentation.
+#### Cellpose3
+- `cellpose_CNN.yml`: conda environment file with the software specifications for using with GPUs. This environment was used for model training, and can also be used for segmentation.
+- `cellpose3_CLI.txt`: the command used to train the Cellpose3 segmentation model, including specifications of hardware. GPU **very** necessary
+- `Cellpose3_segmentation.ipynb`: Jupyter notebook exemplifying how to load a custom model and run it
+
+#### CellposeSAM
+- `cellpose.yml`: conda environment file with the software specifications for using with GPUs. This environment was used for model training, and can also be used for segmentation.
+- `cellposeSAM_CLI.txt`: the command used to train the CellposeSAM segmentation model, including specifications of hardware. GPU **very** necessary
+- `CellposeSAM_segmentation.ipynb`: Jupyter notebook exemplifying how to load a custom model and run it
+
+#### microSAM
+- `microsam.yml`: conda environment file with the software specifications for using with GPUs. This environment was used for model training, and can also be used for segmentation.
+- `microSAM_train.ipynb`: Jupyter notebook exemplifying how to train a custom instance segmentation model. GPU **very** necessary
+- `microSAM_automaticSegmentation.ipynb`: Jupyter notebook exemplifying how to load a custom model and run it
+
+#### Omnipose
+- `omnipose.yml`: conda environment file with the software specifications for using with GPUs. This environment was used for model training, and can also be used for segmentation.
 - `Omnipose_CLI.txt`: the command used to train the Omnipose segmentation model, including specifications of hardware. GPU **very** necessary
-- `Omnipose_segmentation.ipynb`: Jupyter notebook exemplifying how to load a custom model and running it
-- `FMSeg`: the segmentation model for deconvolved membranes
-- `RawFMSeg`: the segmentation model for non-deconvolved membranes
+- `Omnipose_segmentation.ipynb`: Jupyter notebook exemplifying how to load a custom model and run it
 
+Fine-tuned segmentation models for raw and deconvolved images can be found in [zenodo](https://zenodo.org/records/18978187)
 Training and test images and masks can be found at https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD2350
 
 ## Figure reproducibility
@@ -119,4 +159,7 @@ In the "Figures" folder, you'll find each element necessary to reproduce the fig
 - [Main article](https://www.biorxiv.org/content/10.1101/2025.10.26.684635v1) Reyes-Matte, M., Fortmann-Grote, C., Gericke, B., Hüttman, N., Ojkic, N., & Lopez-Garrido, J. (2025). Deep-learning deconvolution and segmentation of fluorescent membranes for high precision bacterial cell size profiling
 - [CARE](https://www.nature.com/articles/s41592-018-0216-7) Weigert, M., Schmidt, U., Boothe, T., Müller, A., Dibrov, A., Jain, A., ... & Myers, E. W. (2018). Content-aware image restoration: pushing the limits of fluorescence microscopy. _Nature methods_, 15(12), 1090-1097.
 - [Omnipose](https://www.nature.com/articles/s41592-022-01639-4) Cutler, K. J., Stringer, C., Lo, T. W., Rappez, L., Stroustrup, N., Brook Peterson, S., … & Mougous, J. D. (2022). Omnipose: a high-precision morphology-independent solution for bacterial cell segmentation. _Nature methods_, 19(11), 1438-1448.
+- [Cellpose3](https://www.nature.com/articles/s41592-025-02595-5) Stringer, C., & Pachitariu, M. (2025). Cellpose3: one-click image restoration for improved cellular segmentation. Nature methods, 22(3), 592-599.
+- [microSAM](https://www.biorxiv.org/content/10.1101/2025.04.28.651001v1.abstract) Pachitariu, M., Rariden, M., & Stringer, C. (2025). Cellpose-SAM: superhuman generalization for cellular segmentation. BioRxiv, 2025-04.
+- [Cellpose-SAM](https://www.nature.com/articles/s41592-024-02580-4) Archit, A., Freckmann, L., Nair, S., Khalid, N., Hilt, P., Rajashekar, V., ... & Pape, C. (2025). Segment anything for microscopy. Nature methods, 22(3), 579-591.
 
