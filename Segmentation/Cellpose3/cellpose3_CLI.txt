@@ -1,0 +1,6 @@
+# Modify the number to specify the desired GPU
+# Training was done on the "deepbio" computer cluster at the Max Planck Institute for Evolutionary Biology. The cluster runs on Linux Ubuntu 22.04, and model was trained using a 12GB NVIDIA GeForce RTX 2080 Ti GPU
+
+export CUDA_VISIBLE_DEVICES=1
+
+python -m cellpose --use_gpu --train --dir <train_dir> --test_dir <test_dir> --mask_filter '_Labels' --pretrained_model cyto3 --SGD 1  --n_epochs=100 --verbose --model_name_out <model_name> --learning_rate 0.1 --weight_decay 0.0001
