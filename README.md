@@ -79,7 +79,7 @@ Congrats! You successfully installed the necessary MEDUSSA libraries! You can ru
 
 ## Using MEDUSSA on your own data
 
-Each aspect of the MEDUSSA pipeline (deconvolution prediction, segmentation, measurement) can be run independently from each other, so it can be integrated into existing pipelines. Each part indicates at the beginning what you need for each step.
+Each aspect of the MEDUSSA pipeline (deconvolution prediction, segmentation, measurement) can be run independently from each other, so it can be integrated into existing pipelines. Each part indicates at the beginning what you need for each step. MEDUSSA has been tried and tested for widefield fluorescence microscopy, so we can't guarantee the performance on other fluorescence microscopy modalities (i.e., Confocal, Structured Illumination Microscopy, Superresolution Microscopy).
 
 ### Model training
 
@@ -87,9 +87,47 @@ If you wish to re-train the models, you'll need access to a computer with a GPU 
 
 ### Deconvolution prediction
 
-**What you need**: CARE library installed, fluorescent membrane images or cytoplasmic fluorescence images
+**What you need**: CARE library installed, non-deconvolved fluorescent membrane images or cytoplasmic fluorescence images.
 
-The FM2FM model can be used not only to predict a deconvolved image, but also to have cells in a singular focal plane through a Z-projection.
+#### Prediction of 2D deconvolved membranes
+
+Using either FM2FM, FP2FM or FM2FM-HiSNR.
+
+```
+from csbdeep.models import CARE
+from csbdeep.utils import normalize
+from tifffile import imread,imwrite
+import numpy as np
+
+model_dir = '/Users/reyesmatte/models/CARE/' 
+
+model_2D = CARE(config=None, name=$MODEL_NAME$, basedir=model_dir)
+
+img_2D = imread($IMAGE_PATH$)
+
+prediction_2D = model_2D.predict(img=normalize(img_2D),axes='YX',n_tiles=(4,4))
+
+imwrite($2D_OUTPUT_PATH$,prediction_2D)
+
+### To predict on a 3D image:
+
+img_3D = imread($3DIMAGE_PATH$)
+
+prediction_3D = np.array([model_2D.predict(img=normalize(z),axes='YX',n_tiles=(4,4)) for z in img_3D] ## Make sure that the image shape is ZYX
+
+imwrite($3D_OUTPUT_PATH$,prediction_3D)
+
+### For the projection
+
+img_3D = imread($3DIMAGE_PATH$)
+
+projection = img_3D.mean(axis=0) ## Make sure that the image shape is ZYX)
+
+prediction_projection =  model_2D.predict(img=normalize(projection),axes='YX',n_tiles=(4,4))
+
+imwrite($PROJECTION_OUTPUT_PATH$,prediction_3D)
+
+```
 
 ### Segmentation
 
@@ -97,13 +135,41 @@ The FM2FM model can be used not only to predict a deconvolved image, but also to
 
 Omnipose and microSAM performed better on deconvolved images, with Omnipose also being able to segment elongated cells and microSAM allowing for interactive segmentation with the napari plugin. Cellpose3 and CellposeSAM performed better in raw images.
 
+For examples on how to load specfic models in Jupyter notebooks, please refer to each models folder in the "Segmentation" directory. Alternatively, check the respective documentations of each software for instructions for use with GUIs (napari or their owns).
+
+The models will output instance segmentation masks that can be used for size quantification downstreams or extracting other type of parameters (i.e., fluorescence)
+
 ### Cell size quantification
 
 **What you need**: instance segmentation masks 
 
-To quantify the cells, each mask in your image must have a unique, integer ID. Most segmentation software generate these automatically. If not, ensure that you can get this type of mask.
+To quantify the cells, each mask in your image must have a unique, integer ID. Most segmentation software generate these automatically. If not, ensure that you can get this type of mask. 
 
 The 'MEDUSSA.measure' functions allow for the measurement of cells directly from a specific image or also from a list of images. We recommend the `SizeDataFrame` function, as this will provide a table with all the measured cells. 
+
+The functions are optimized for rod-shaped (or pill-shaped) bacteria. Some functions can be adapted for measuring, for example, crescent shaped bacteria. However, it's not suitable for cells with irregular morphologies, and goes beyond what you'd need for measurements of spherical bacteria.
+
+```
+import numpy as np
+import pandas as pd
+
+from MEDUSSA.utils import BorderRemoval
+from MEDUSSA.measure import SizeDataFrame
+
+from glob import glob
+
+masks_path = $IMAGE_PATH$
+
+### If you instead read the image first, change to "from_files = False"
+single_df = SizeDataFrame(maskfilelist = [masks_path], from_files = True, return_skeleton_paths = False, pixsize = 33.02/512) ## Pixel size of a Leica Thunder microscope
+
+### More conveniently, the function can work on a list of files
+
+masks_list = sorted(glob($FOLDER_WITH_MASKS/*$))
+multi_df = SizeDataFrame(maskfilelist = [masks_list], from_files = True, return_skeleton_paths = False, pixsize = 33.02/512) ## Pixel size of a Leica Thunder microscope
+
+```
+
 
 ## What else can you find here
 
@@ -146,6 +212,10 @@ The environment files and commands for training the fine-tuned segmentation mode
 
 Fine-tuned segmentation models for raw and deconvolved images can be found in [zenodo](https://zenodo.org/records/18978187)
 Training and test images and masks can be found at https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BIAD2350
+
+### Raw data
+
+Raw data `.csv` files for the plots in all the figures 
 
 ## Figure reproducibility
 
