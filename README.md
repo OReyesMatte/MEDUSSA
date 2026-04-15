@@ -85,9 +85,32 @@ If you prefer to keep everything in a pure PyTorch environment, we're working on
 
 In the same terminal that you opened and in the `medussa_env` environment, run `sh medussa_install_macos` or `sh medussa_install_linux` according to your operating system. This will take a few minutes.
 
+#### Windows details
+
+If instead you are using windows, the installation will be trickier, and you'll have to modify the `peakdetect` file manually. Install with `pip` the segmentation and restoration libraries:
+```
+conda install python=3.12 -c conda-forge -y
+
+pip install omnipose csbdeep pyarrow seaborn natsort
+```
+Next, find the `peakdetect.py` file. For example, in MacOS the path would be `miniforge3/envs/medussa_env/lib/python3.12/site-packages/peakdetect/peakdetect.py`. 
+Then on the file change:
+
+```
+from scipy import fft, ifft
+```
+
+to
+```
+from scipy.fft import ifft
+```
+
+With this you'll make the fix and then can proceed
+
+### Check the install
+
 To then test the installation, run `omnipose` on your terminal. It will ask you to install the PyQt6 dependencies, type `y` and press enter to continue the installation. After that, the Omnipose GUI should open.
 ![Terminal screenshot, black background with white letters asking for the installation of GUI dependencies](https://github.com/OReyesMatte/MEDUSSA/blob/main/omnipose_installation.png)
-
 
 Congrats! You successfully installed the necessary MEDUSSA libraries! You can run the `MEDUSSA_example.pynb` notebook to see the pipeline in action!
 
