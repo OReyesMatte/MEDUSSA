@@ -34,23 +34,25 @@ git clone https://github.com/OReyesMatte/MEDUSSA.git
 
 Or download the source code archive
 ```
-curl -L https://github.com/OReyesMatte/MEDUSSA/archive/master.zip
+curl -L -O https://github.com/OReyesMatte/MEDUSSA/archive/master.zip
 ```
 
-Then unzip it manually, with the `unzip` command (macOS/Linux)
+Then unzip it, either manually or with `tar`
+
 ```
-unzip master.zip -d MEDUSSA
+tar -xf master.zip
 ```
 
-Or with the `Expand-Archive` command (Windows)
-```
-Expand-Archive master.zip -DestinationPath MEDUSSA
-```
-
-Then go to the directory 
+Then go to the directory. 
 ```
 cd MEDUSSA
 ```
+
+If you downloaded it with `curl` and then unzipped it, the directory name will be "MEDUSSA-main'
+```
+cd MEDUSSA-main
+```
+
 In your terminal, with the `medussa_env` environment, run
 
 ```
