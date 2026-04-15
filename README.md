@@ -29,29 +29,41 @@ conda create -n medussa_env -c conda-forge python=3.12 numpy -y && conda activat
 
 If you are only interested in the measuring functions, the easiest is to clone the repo
 ```
-git clone https://github.com/OReyesMatte/MEDUSSA/.git
+git clone https://github.com/OReyesMatte/MEDUSSA.git
 ```
 
 Or download the source code archive
 ```
 curl -L https://github.com/OReyesMatte/MEDUSSA/archive/master.zip
+```
+
+Then unzip it manually, with the `unzip` command (macOS/Linux)
+```
 unzip master.zip -d MEDUSSA
+```
+
+Or with the `Expand-Archive` command (Windows)
+```
+Expand-Archive master.zip -DestinationPath MEDUSSA
 ```
 
 Then go to the directory 
 ```
 cd MEDUSSA
 ```
-
-### MEDUSSA functions only using `pip`
-
 In your terminal, with the `medussa_env` environment, run
 
 ```
 pip install -r requirements.txt
 ```
 
-Then, on your terminal, run `python`, which will open the Python interpreter, there run:
+To then verify the installation, open the python interpreter:
+
+```
+python
+```
+
+Then, run:
 ```
 from MEDUSSA.utils import InstallCheck
 InstallCheck()
