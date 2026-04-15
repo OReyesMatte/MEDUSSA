@@ -34,7 +34,7 @@ git clone https://github.com/OReyesMatte/MEDUSSA/.git
 
 Or download the source code archive
 ```
-wget https://github.com/OReyesMatte/MEDUSSA/archive/master.zip
+curl -L https://github.com/OReyesMatte/MEDUSSA/archive/master.zip
 unzip master.zip -d MEDUSSA
 ```
 
